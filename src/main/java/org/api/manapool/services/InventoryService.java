@@ -3,9 +3,6 @@ package org.api.manapool.services;
 import java.io.IOException;
 import java.util.List;
 
-import org.api.manapool.model.EnumCondition;
-import org.api.manapool.model.EnumFinish;
-import org.api.manapool.model.EnumLangages;
 import org.api.manapool.model.InventoryEntry;
 import org.api.manapool.model.InventoryItems;
 import org.api.manapool.model.ProductQueryEntry;
@@ -16,20 +13,6 @@ import com.google.gson.JsonObject;
 public class InventoryService {
 
 	private RestClient client;
-	
-	
-	public static void main(String[] args) throws IOException {
-		var service = new InventoryService("nicolas.pihen@gmail.com", "mpat_a6uk2b8i9b21m38s2w1a61v8l");
-		
-		var entry = new  ProductQueryEntry("6cd01460-901c-4d75-bc29-e97ed26afc39",EnumLangages.FR,EnumFinish.NF,EnumCondition.NM,650.50,1);
-		
-		var ret = service.deleteInventoryItems(entry);
-		
-		
-		System.out.println(ret.getProduct());
-		
-		
-	}
 	
 	public InventoryService(String email, String token) {
 		client = new RestClient(email, token);
