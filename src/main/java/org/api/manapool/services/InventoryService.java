@@ -44,8 +44,12 @@ public class InventoryService {
 	{
 		var obj = client.delete("/seller/inventory/scryfall_id/"+item.getScryfallId()+"?language_id="+item.getLanguage()+"&finish_id="+item.getFinishId()+"&condition_id="+item.getCondition(),item,null,JsonObject.class);
 		return client.fromJson(obj.get("inventory").getAsJsonObject().toString(), InventoryEntry.class);
-		
 	}
+	
+	public RestClient getClient() {
+		return client;
+	}
+	
 	
 	
 }
