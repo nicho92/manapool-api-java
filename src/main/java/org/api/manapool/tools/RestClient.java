@@ -118,7 +118,7 @@ public class RestClient implements Closeable {
 		
 	}
     
-    private <T> T executeRequest(HttpUriRequest request, Class<T> responseType) throws IOException {
+    private <T> T executeRequest(HttpRequestBase request, Class<T> responseType) throws IOException {
     	
     	var callInfo = new URLCallInfo();
     	

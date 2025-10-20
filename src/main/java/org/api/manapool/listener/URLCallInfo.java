@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 
 public class URLCallInfo implements Serializable {
@@ -14,7 +15,7 @@ public class URLCallInfo implements Serializable {
 	private Instant end;
 	private String url;
 	private HttpResponse response;
-	private HttpUriRequest request;
+	private HttpRequestBase request;
 
 	@Override
 	public String toString() {
@@ -67,11 +68,11 @@ public class URLCallInfo implements Serializable {
 		this.response = response;
 	}
 
-	public HttpUriRequest getRequest() {
+	public HttpRequestBase getRequest() {
 		return request;
 	}
 
-	public void setRequest(HttpUriRequest request) {
+	public void setRequest(HttpRequestBase request) {
 		this.request = request;
 	}
 	
