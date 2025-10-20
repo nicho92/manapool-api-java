@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 
 public class URLCallInfo implements Serializable {
@@ -49,6 +48,7 @@ public class URLCallInfo implements Serializable {
 
 	public void setEnd(Instant end) {
 		this.end = end;
+		setDuration(end.toEpochMilli()-start.toEpochMilli());
 	}
 
 	public String getUrl() {

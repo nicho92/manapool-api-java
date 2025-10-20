@@ -121,23 +121,16 @@ public class RestClient implements Closeable {
     private <T> T executeRequest(HttpUriRequest request, Class<T> responseType) throws IOException {
     	
     	var callInfo = new URLCallInfo();
-    	var start = Instant.now();
     	
         try (var response = httpClient.execute(request)) {
         	var statusCode = response.getStatusLine().getStatusCode();
             var jsonResponse = response.getEntity() != null ? EntityUtils.toString(response.getEntity()) : null;
        
             logger.info("{} : {},", request,statusCode );
-            
-        	var stop = Instant.now();
-    		var duration = stop.toEpochMilli()-start.toEpochMilli();
-    		
-    		callInfo.setStart(start);
-    		callInfo.setEnd(stop);
-    		callInfo.setDuration(duration);
+    		callInfo.setEnd(Instant.now());
     		callInfo.setUrl(request.getURI().toASCIIString());
     		callInfo.setRequest(request);
-        
+    		callInfo.setResponse(response);
             
             
             if (statusCode >= 200 && statusCode < 300) 
