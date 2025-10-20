@@ -53,23 +53,19 @@ public class ManaPoolAPIService {
 	public List<PriceVariation> listSinglesPrices() throws IOException
 	{
 		var arr = client.get("/prices/singles", null, JsonObject.class).get("data").getAsJsonArray();
-		
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),PriceVariation.class)).toList();
-		
 	}
 	
 	public List<PriceVariation> listSealedPrices() throws IOException
 	{
 		var arr = client.get("/prices/sealed", null, JsonObject.class).get("data").getAsJsonArray();
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),PriceVariation.class)).toList();
-		
 	}
 	
 	public List<PriceVariation> listVariantsPrices() throws IOException
 	{
 		var arr = client.get("/prices/variants", null, JsonObject.class).get("data").getAsJsonArray();
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),PriceVariation.class)).toList();
-		
 	}
 	
 }
