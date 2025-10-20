@@ -2,6 +2,7 @@ package org.api.manapool.tools;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +19,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.api.manapool.listener.URLCallListener;
+import org.api.manapool.listener.URLCallInfo;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 
 public class RestClient implements Closeable {
@@ -29,6 +31,7 @@ public class RestClient implements Closeable {
     private final Gson gson;
     private final Map<String, String> defaultHeaders;
 	protected Logger logger = LogManager.getLogger(this.getClass());
+	private URLCallListener listener;
 	 
     /**
      * Constructeur sans authentification.
@@ -110,15 +113,35 @@ public class RestClient implements Closeable {
     	return gson.fromJson(json, responseType);
     }
     
+    public void setCallListener(URLCallListener listener2) {
+		this.listener=listener2;
+		
+	}
     
     private <T> T executeRequest(HttpUriRequest request, Class<T> responseType) throws IOException {
+    	
+    	var callInfo = new URLCallInfo();
+    	var start = Instant.now();
+    	
         try (var response = httpClient.execute(request)) {
         	var statusCode = response.getStatusLine().getStatusCode();
             var jsonResponse = response.getEntity() != null ? EntityUtils.toString(response.getEntity()) : null;
        
             logger.info("{} : {},", request,statusCode );
             
-            if (statusCode >= 200 && statusCode < 300) {
+        	var stop = Instant.now();
+    		var duration = stop.toEpochMilli()-start.toEpochMilli();
+    		
+    		callInfo.setStart(start);
+    		callInfo.setEnd(stop);
+    		callInfo.setDuration(duration);
+    		callInfo.setUrl(request.getURI().toASCIIString());
+    		callInfo.setRequest(request);
+        
+            
+            
+            if (statusCode >= 200 && statusCode < 300) 
+            {
                 if (responseType == String.class) {
                     return responseType.cast(jsonResponse);
                 }
@@ -137,6 +160,14 @@ public class RestClient implements Closeable {
                 throw new IOException(statusCode + " : " + jsonResponse);
             }
         }
+        finally {
+        	
+        	if(listener!=null)
+        		listener.notify(callInfo);
+		}
+        
+        
+        
     }
 
     @Override
