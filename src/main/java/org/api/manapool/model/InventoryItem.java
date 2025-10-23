@@ -7,7 +7,7 @@ import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 
-public class InventoryEntry implements Serializable{
+public class InventoryItem implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	

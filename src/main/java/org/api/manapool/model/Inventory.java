@@ -4,26 +4,26 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-public class InventoryItems implements Serializable, Iterable<InventoryEntry>{
+public class Inventory implements Serializable, Iterable<InventoryItem>{
 
 	private static final long serialVersionUID = 1L;
 
 	
-	private List<InventoryEntry> inventory;
+	private List<InventoryItem> inventory;
 	
 
 	@Override
-	public Iterator<InventoryEntry> iterator() {
+	public Iterator<InventoryItem> iterator() {
 		return getInventory().iterator();
 	}
 
 
-	public List<InventoryEntry> getInventory() {
+	public List<InventoryItem> getInventory() {
 		return inventory;
 	}
 
 
-	public void setInventory(List<InventoryEntry> inventory) {
+	public void setInventory(List<InventoryItem> inventory) {
 		this.inventory = inventory;
 	}
 	

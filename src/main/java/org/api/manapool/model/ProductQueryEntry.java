@@ -19,8 +19,14 @@ public class ProductQueryEntry implements Serializable {
 		
 	}
 	
+	
+	public ProductQueryEntry(Product item , double price, Integer quantity)
+	{
+		this(item.getScryfallId(), item.getLanguage(), item.getFinishId(), item.getCondition(), price, quantity);
+	}
+	
+	
 	public ProductQueryEntry(String scryfallId, EnumLangages language, EnumFinish finishId, EnumCondition condition,double price, Integer quantity) {
-		super();
 		this.scryfallId = scryfallId;
 		this.language = language;
 		this.finishId = finishId;
@@ -65,8 +71,6 @@ public class ProductQueryEntry implements Serializable {
 	public double getPrice() {
 		return priceCents/100;
 	}
-	
-	
 	public Integer getQuantity() {
 		return quantity;
 	}

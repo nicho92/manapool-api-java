@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+import org.api.manapool.model.ProductQueryEntry;
 import org.api.manapool.services.ManaPoolAPIService;
 
 public class Testers {
@@ -12,12 +13,18 @@ public class Testers {
 		
 		var service = new ManaPoolAPIService(email, token);
 		
-		service.getSellerInventory().forEach(e->{
-			
-			System.out.println(e.getProduct() + " " +  e.getPriceValue());
-						
-		});
+	
 		
+		
+		//  DELETE TEST
+		
+		service.getSellerInventory().forEach(item->{
+			try {
+				service.deleteInventoryItems(new ProductQueryEntry(item.getProduct().getSingle(), 0, null));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 		
 	}
 
