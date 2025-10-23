@@ -30,17 +30,17 @@ public class ManaPoolAPIService {
 	
 	public List<InventoryItem> getSellerInventory() throws IOException
 	{
-		return client.get("/seller/inventory", null, Inventory.class).getInventory();
+		return client.get("/seller/inventory", null, Inventory.class).getItems();
 	}
 	
 	public List<InventoryItem> getSellerInventory(int limit, int offset) throws IOException
 	{
-		return client.get("/seller/inventory?limit="+limit+"&offset="+offset, null, Inventory.class).getInventory();
+		return client.get("/seller/inventory?limit="+limit+"&offset="+offset, null, Inventory.class).getItems();
 	}
 	
 	public List<InventoryItem> addInventoryItems(List<ProductQueryEntry> inventoryList) throws IOException
 	{
-		return client.post("/seller/inventory/scryfall_id",inventoryList,null,Inventory.class).getInventory();
+		return client.post("/seller/inventory/scryfall_id",inventoryList,null,Inventory.class).getItems();
 	}
 	
 	public InventoryItem updateInventoryItems(ProductQueryEntry item) throws IOException

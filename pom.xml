@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>manapool-api-java</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<packaging>jar</packaging>
 	<name>manapool-api-java</name>
 	<description>Java implementation for manapool API</description>

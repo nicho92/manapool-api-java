@@ -5,7 +5,6 @@ import java.time.Instant;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.methods.HttpUriRequest;
 
 public class URLCallInfo implements Serializable {
 

@@ -9,22 +9,22 @@ public class Inventory implements Serializable, Iterable<InventoryItem>{
 	private static final long serialVersionUID = 1L;
 
 	
-	private List<InventoryItem> inventory;
+	private List<InventoryItem> items;
 	
 
 	@Override
 	public Iterator<InventoryItem> iterator() {
-		return getInventory().iterator();
+		return getItems().iterator();
 	}
 
 
-	public List<InventoryItem> getInventory() {
-		return inventory;
+	public List<InventoryItem> getItems() {
+		return items;
 	}
 
 
-	public void setInventory(List<InventoryItem> inventory) {
-		this.inventory = inventory;
+	public void setItems(List<InventoryItem> inventory) {
+		this.items = inventory;
 	}
 	
 	

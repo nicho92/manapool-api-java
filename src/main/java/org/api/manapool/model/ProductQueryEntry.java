@@ -69,7 +69,7 @@ public class ProductQueryEntry implements Serializable {
 		priceCents = (int)(d*100);
 	}
 	public double getPrice() {
-		return priceCents/100;
+		return priceCents/100.0;
 	}
 	public Integer getQuantity() {
 		return quantity;

@@ -23,7 +23,7 @@ public class InventoryItem implements Serializable{
 	
 	public double getPriceValue()
 	{
-		return getPriceCents()/100;
+		return getPriceCents()/100.0;
 	}
 	
 	
