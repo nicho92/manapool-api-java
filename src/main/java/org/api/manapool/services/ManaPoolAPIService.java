@@ -2,6 +2,7 @@ package org.api.manapool.services;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import org.api.manapool.model.InventoryEntry;
 import org.api.manapool.model.InventoryItems;
@@ -18,7 +19,11 @@ public class ManaPoolAPIService {
 	public ManaPoolAPIService(String email, String token) {
 		client = new RestClient(email, token);
 	}
-
+	
+	public ManaPoolAPIService(Properties p) {
+		client = new RestClient(p.getProperty("EMAIL"), p.getProperty("TOKEN"));
+	}
+	
 	public RestClient getClient() {
 		return client;
 	}

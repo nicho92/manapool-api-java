@@ -16,4 +16,9 @@ java api for manapool.com
 ```java
 var service = new InventoryService(<YOUR EMAIL>,<YOUR TOKEN API>);
 
+		service.getSellerInventory().forEach(e->{
+			
+			System.out.println(e.getProduct() + " " +  e.getPriceValue());
+						
+		});
 ```
