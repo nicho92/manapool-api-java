@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Inventory implements Serializable, Iterable<InventoryItem>{
 
 	private static final long serialVersionUID = 1L;
 
 	
-	private List<InventoryItem> items;
+	@SerializedName(value = "inventory") private List<InventoryItem> items;
 	
 
 	@Override

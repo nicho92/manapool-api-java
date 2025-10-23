@@ -1,9 +1,9 @@
 package org.api.manapool.model;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.api.manapool.services.ManaPoolAPIService;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -29,11 +29,7 @@ public class InventoryItem implements Serializable{
 	
 	
 	public Date getDateffectiveAsOf() {
-		try {
-			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ").parse(effectiveAsOf);
-		} catch (ParseException e) {
-			return null;
-		}
+		return ManaPoolAPIService.parseDate(effectiveAsOf);
 	}
 	
 	

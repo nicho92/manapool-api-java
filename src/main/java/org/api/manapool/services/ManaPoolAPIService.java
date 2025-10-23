@@ -1,10 +1,16 @@
 package org.api.manapool.services;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import org.api.manapool.model.InventoryItem;
+import org.api.manapool.model.OrderSummary;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.api.manapool.model.Inventory;
 import org.api.manapool.model.PriceVariation;
 import org.api.manapool.model.ProductQueryEntry;
@@ -15,7 +21,8 @@ import com.google.gson.JsonObject;
 public class ManaPoolAPIService {
 
 	private RestClient client;
-	
+	protected static Logger logger = LogManager.getLogger(ManaPoolAPIService.class);
+
 	public ManaPoolAPIService(String email, String token) {
 		client = new RestClient(email, token);
 	}
@@ -71,6 +78,28 @@ public class ManaPoolAPIService {
 	{
 		var arr = client.get("/prices/variants", null, JsonObject.class).get("data").getAsJsonArray();
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),PriceVariation.class)).toList();
+	}
+	
+	public List<OrderSummary> listSellsOrders(int limit, int offset) throws IOException
+	{
+		var arr = client.get("/seller/orders?limit="+limit+"&offset="+offset, null, JsonObject.class).get("orders").getAsJsonArray();
+		return arr.asList().stream().map(e->client.fromJson(e.toString(),OrderSummary.class)).toList();
+	}
+	
+	
+	public static Date parseDate(String date)
+	{
+		try {
+			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ").parse(date);
+		} catch (ParseException e) {
+			logger.error(e);
+			return null;
+		}
+	}
+	
+	public static String toDate(Date date)
+	{
+			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ").format(date);
 	}
 	
 }
