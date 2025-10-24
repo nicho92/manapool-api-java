@@ -11,9 +11,11 @@ import org.api.manapool.model.InventoryItem;
 import org.api.manapool.model.OrderSummary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.api.manapool.model.Account;
 import org.api.manapool.model.Inventory;
 import org.api.manapool.model.PriceVariation;
 import org.api.manapool.model.ProductQueryEntry;
+import org.api.manapool.tools.ManaPoolConstants;
 import org.api.manapool.tools.RestClient;
 
 import com.google.gson.JsonObject;
@@ -86,11 +88,22 @@ public class ManaPoolAPIService {
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),OrderSummary.class)).toList();
 	}
 	
+	public double userCredits() throws IOException
+	{
+		var arr = client.get("/buyer/credit", null, JsonObject.class).get("user_credit_cents").getAsInt();
+		return arr/100.0;
+	}
+	
+	public Account userAccount() throws IOException
+	{
+		return client.get("/account", null, Account.class);
+	}
+	
 	
 	public static Date parseDate(String date)
 	{
 		try {
-			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ").parse(date);
+			return new SimpleDateFormat(ManaPoolConstants.DATE_FORMAT).parse(date);
 		} catch (ParseException e) {
 			logger.error(e);
 			return null;
@@ -99,7 +112,7 @@ public class ManaPoolAPIService {
 	
 	public static String toDate(Date date)
 	{
-			return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ").format(date);
+			return new SimpleDateFormat(ManaPoolConstants.DATE_FORMAT).format(date);
 	}
 	
 }
