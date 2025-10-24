@@ -2,6 +2,10 @@ package org.api.manapool.model;
 
 import java.io.Serializable;
 
+import org.api.manapool.model.enums.EnumCondition;
+import org.api.manapool.model.enums.EnumFinish;
+import org.api.manapool.model.enums.EnumLangages;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Product implements Serializable {
