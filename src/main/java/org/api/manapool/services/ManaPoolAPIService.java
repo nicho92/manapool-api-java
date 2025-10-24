@@ -7,12 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import org.api.manapool.model.InventoryItem;
-import org.api.manapool.model.OrderSummary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.api.manapool.model.Account;
 import org.api.manapool.model.Inventory;
+import org.api.manapool.model.InventoryItem;
+import org.api.manapool.model.Order;
+import org.api.manapool.model.OrderSummary;
 import org.api.manapool.model.PriceVariation;
 import org.api.manapool.model.ProductQueryEntry;
 import org.api.manapool.tools.ManaPoolConstants;
@@ -87,6 +88,33 @@ public class ManaPoolAPIService {
 		var arr = client.get("/seller/orders?limit="+limit+"&offset="+offset, null, JsonObject.class).get("orders").getAsJsonArray();
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),OrderSummary.class)).toList();
 	}
+	
+	public List<OrderSummary> listBoughtOrders(int limit, int offset) throws IOException
+	{
+		var arr = client.get("/buyer/orders?limit="+limit+"&offset="+offset, null, JsonObject.class).get("orders").getAsJsonArray();
+		return arr.asList().stream().map(e->client.fromJson(e.toString(),OrderSummary.class)).toList();
+	}
+	
+	public Order getSellsOrder(OrderSummary os)throws IOException
+	{
+		return getSellsOrderById(os.getId());
+	}
+	
+	public Order getBoughtOrderById(String id)throws IOException
+	{
+		return client.get("/buyer/orders/"+id, null, Order.class);
+	}
+	
+	public Order getBoughtOrder(OrderSummary os)throws IOException
+	{
+		return getSellsOrderById(os.getId());
+	}
+	
+	public Order getSellsOrderById(String id)throws IOException
+	{
+		return client.get("/seller/orders/"+id, null, Order.class);
+	}
+	
 	
 	public double userCredits() throws IOException
 	{

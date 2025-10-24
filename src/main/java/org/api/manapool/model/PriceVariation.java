@@ -140,11 +140,17 @@ public class PriceVariation implements Serializable {
 	public int getPriceCents() {
 		return priceCents;
 	}
+	public double getPrice() {
+		return priceCents/100.0;
+	}
 	public void setPriceCents(int priceCents) {
 		this.priceCents = priceCents;
 	}
 	public int getPriceCentslpPlus() {
 		return priceCentslpPlus;
+	}
+	public double getPricelpPlus() {
+		return priceCentslpPlus/100.0;
 	}
 	public void setPriceCentslpPlus(int priceCentslpPlus) {
 		this.priceCentslpPlus = priceCentslpPlus;
@@ -152,11 +158,17 @@ public class PriceVariation implements Serializable {
 	public int getPriceCentsFoil() {
 		return priceCentsFoil;
 	}
+	public double getPriceFoil() {
+		return priceCentsFoil/100.0;
+	}
 	public void setPriceCentsFoil(int priceCentsFoil) {
 		this.priceCentsFoil = priceCentsFoil;
 	}
 	public int getPriceCentslpPlusFoil() {
 		return priceCentslpPlusFoil;
+	}
+	public double getPricelpPlusFoil() {
+		return priceCentslpPlusFoil/100.0;
 	}
 	public void setPriceCentslpPlusFoil(int priceCentslpPlusFoil) {
 		this.priceCentslpPlusFoil = priceCentslpPlusFoil;
@@ -164,11 +176,17 @@ public class PriceVariation implements Serializable {
 	public int getPriceCentsNmPlus() {
 		return priceCentsNmPlus;
 	}
+	public double getPriceNmPlus() {
+		return priceCentsNmPlus/100.0;
+	}
 	public void setPriceCentsNmPlus(int priceCentsNmPlus) {
 		this.priceCentsNmPlus = priceCentsNmPlus;
 	}
 	public int getPriceCentsEtched() {
 		return priceCentsEtched;
+	}
+	public double getPriceEtched() {
+		return priceCentsEtched/100.0;
 	}
 	public void setPriceCentsEtched(int priceCentsEtched) {
 		this.priceCentsEtched = priceCentsEtched;
@@ -176,11 +194,17 @@ public class PriceVariation implements Serializable {
 	public int getPriceCentsLpPlusEtched() {
 		return priceCentsLpPlusEtched;
 	}
+	public double getPriceLpPlusEtched() {
+		return priceCentsLpPlusEtched/100.0;
+	}
 	public void setPriceCentsLpPlusEtched(int priceCentsLpPlusEtched) {
 		this.priceCentsLpPlusEtched = priceCentsLpPlusEtched;
 	}
 	public int getPriceCentslpEtched() {
 		return priceCentslpEtched;
+	}
+	public double getPricelpEtched() {
+		return priceCentslpEtched/100.0;
 	}
 	public void setPriceCentslpEtched(int priceCentslpEtched) {
 		this.priceCentslpEtched = priceCentslpEtched;
