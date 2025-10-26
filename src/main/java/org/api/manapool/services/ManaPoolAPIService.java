@@ -10,6 +10,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.api.manapool.model.Account;
+import org.api.manapool.model.Card;
 import org.api.manapool.model.Inventory;
 import org.api.manapool.model.InventoryItem;
 import org.api.manapool.model.Order;
@@ -19,6 +20,7 @@ import org.api.manapool.model.ProductQueryEntry;
 import org.api.manapool.tools.ManaPoolConstants;
 import org.api.manapool.tools.RestClient;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class ManaPoolAPIService {
@@ -37,6 +39,19 @@ public class ManaPoolAPIService {
 	public RestClient getClient() {
 		return client;
 	}
+	
+	public List<Card> cardInfo(List<String> cardNames) throws IOException
+	{
+		var obj = new JsonObject();
+		var arr = new JsonArray();
+		obj.add("card_names", arr);
+		cardNames.forEach(arr::add);
+		var ret = client.post("/card_info",obj,null,JsonObject.class).get("cards").getAsJsonArray();
+		return ret.asList().stream().map(e->client.fromJson(e.toString(),Card.class)).toList();
+		
+	}
+	
+	
 	
 	public List<InventoryItem> getSellerInventory() throws IOException
 	{
