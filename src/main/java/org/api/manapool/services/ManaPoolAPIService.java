@@ -1,10 +1,13 @@
 package org.api.manapool.services;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +19,7 @@ import org.api.manapool.model.InventoryItem;
 import org.api.manapool.model.Order;
 import org.api.manapool.model.OrderSummary;
 import org.api.manapool.model.PriceVariation;
+import org.api.manapool.model.Product;
 import org.api.manapool.model.ProductQueryEntry;
 import org.api.manapool.tools.ManaPoolConstants;
 import org.api.manapool.tools.RestClient;
@@ -27,18 +31,38 @@ public class ManaPoolAPIService {
 
 	private RestClient client;
 	protected static Logger logger = LogManager.getLogger(ManaPoolAPIService.class);
-
+	
 	public ManaPoolAPIService(String email, String token) {
 		client = new RestClient(email, token);
 	}
-	
-	public ManaPoolAPIService(Properties p) {
-		client = new RestClient(p.getProperty("EMAIL"), p.getProperty("TOKEN"));
+
+	public ManaPoolAPIService(File f) throws IOException {
+		
+		var p = new Properties();
+		try(var read = new FileReader(f))
+		{
+			p.load(read);
+			client = new RestClient(p.getProperty("EMAIL"), p.getProperty("TOKEN"));	
+		}
 	}
+	
+	
 	
 	public RestClient getClient() {
 		return client;
 	}
+	
+	public Card cardInfo(String cardName) throws IOException
+	{
+		try {
+			return cardInfo(List.of(cardName)).getFirst();
+		}catch(NoSuchElementException e)
+		{
+			logger.error("No results found for {}",cardName,e);
+			return null;
+		}
+	}
+	
 	
 	public List<Card> cardInfo(List<String> cardNames) throws IOException
 	{
@@ -48,24 +72,22 @@ public class ManaPoolAPIService {
 		cardNames.forEach(arr::add);
 		var ret = client.post("/card_info",obj,null,JsonObject.class).get("cards").getAsJsonArray();
 		return ret.asList().stream().map(e->client.fromJson(e.toString(),Card.class)).toList();
-		
 	}
 	
-	
-	
-	public List<InventoryItem> getSellerInventory() throws IOException
+	public Inventory getSellerInventory() throws IOException
 	{
-		return client.get("/seller/inventory", null, Inventory.class).getItems();
+		var inventory = client.get("/seller/inventory", null, Inventory.class);
+		return getSellerInventory(inventory.getPagination().getTotal(),0);
 	}
 	
-	public List<InventoryItem> getSellerInventory(int limit, int offset) throws IOException
+	public Inventory getSellerInventory(int limit, int offset) throws IOException
 	{
-		return client.get("/seller/inventory?limit="+limit+"&offset="+offset, null, Inventory.class).getItems();
+		return client.get("/seller/inventory?limit="+limit+"&offset="+offset, null, Inventory.class);
 	}
 	
-	public List<InventoryItem> addInventoryItems(List<ProductQueryEntry> inventoryList) throws IOException
+	public Inventory addInventoryItems(List<ProductQueryEntry> inventoryList) throws IOException
 	{
-		return client.post("/seller/inventory/scryfall_id",inventoryList,null,Inventory.class).getItems();
+		return client.post("/seller/inventory/scryfall_id",inventoryList,null,Inventory.class);
 	}
 	
 	public InventoryItem updateInventoryItems(ProductQueryEntry item) throws IOException
@@ -79,6 +101,13 @@ public class ManaPoolAPIService {
 		var obj = client.delete("/seller/inventory/scryfall_id/"+item.getScryfallId()+"?language_id="+item.getLanguage()+"&finish_id="+item.getFinishId()+"&condition_id="+item.getCondition(),item,null,JsonObject.class);
 		return client.fromJson(obj.get("inventory").getAsJsonObject().toString(), InventoryItem.class);
 	}
+	
+	public InventoryItem deleteInventoryItems(Product item) throws IOException
+	{
+		var obj = client.delete("/seller/inventory/scryfall_id/"+item.getScryfallId()+"?language_id="+item.getLanguage()+"&finish_id="+item.getFinishId()+"&condition_id="+item.getCondition(),item,null,JsonObject.class);
+		return client.fromJson(obj.get("inventory").getAsJsonObject().toString(), InventoryItem.class);
+	}
+	
 	
 	public List<PriceVariation> listSinglesPrices() throws IOException
 	{
@@ -110,7 +139,18 @@ public class ManaPoolAPIService {
 		return arr.asList().stream().map(e->client.fromJson(e.toString(),OrderSummary.class)).toList();
 	}
 	
-	public Order getSellsOrder(OrderSummary os)throws IOException
+	public void clearSellerInventory() throws IOException {
+		getSellerInventory().forEach(item->{
+			try {
+				deleteInventoryItems(item.getProduct().getSingle());
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+	}
+	
+	
+	public Order getSellsOrder(OrderSummary os) throws IOException
 	{
 		return getSellsOrderById(os.getId());
 	}

@@ -13,6 +13,12 @@ public class Inventory implements Serializable, Iterable<InventoryItem>{
 	
 	@SerializedName(value = "inventory") private List<InventoryItem> items;
 	
+	private Pagination pagination;
+	
+	
+	public Pagination getPagination() {
+		return pagination;
+	}
 
 	@Override
 	public Iterator<InventoryItem> iterator() {

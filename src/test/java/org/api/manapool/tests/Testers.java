@@ -1,5 +1,6 @@
 package org.api.manapool.tests;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.api.manapool.services.ManaPoolAPIService;
@@ -7,20 +8,13 @@ import org.api.manapool.services.ManaPoolAPIService;
 public class Testers {
 
 	public static void main(String[] args) throws IOException {
-		String email="";
-		String token="";
+		var service = new ManaPoolAPIService(new File(System.getProperty("user.home")+"/manapool.properties"));
 		
 		
-		
-		var service = new ManaPoolAPIService(email, token);
-		
-	
-		
-		
-		//  DELETE TEST
-		
-		service.getSellerInventory().forEach(item->{
-			System.out.println(item);
+		service.getSellerInventory().getItems().forEach(i->{
+			
+			System.out.println(i.getProduct().getSingle().getName() + " " + i.getProduct().getSingle().getSet() + " " + i.getProduct().getSingle().getLanguage() + " " + i.getPriceValue());
+			
 		});
 		
 	}
