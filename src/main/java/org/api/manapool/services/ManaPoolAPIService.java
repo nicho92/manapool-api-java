@@ -21,6 +21,7 @@ import org.api.manapool.model.OrderSummary;
 import org.api.manapool.model.PriceVariation;
 import org.api.manapool.model.Product;
 import org.api.manapool.model.ProductQueryEntry;
+import org.api.manapool.model.enums.EnumType;
 import org.api.manapool.tools.ManaPoolConstants;
 import org.api.manapool.tools.RestClient;
 
@@ -84,6 +85,15 @@ public class ManaPoolAPIService {
 	{
 		return client.get("/seller/inventory?limit="+limit+"&offset="+offset, null, Inventory.class);
 	}
+	
+	public InventoryItem getSellerInventoryById(EnumType type, String id) throws IOException
+	{
+		var obj = client.get("/seller/inventory/product/mtg_"+type.name().toLowerCase()+"/"+id, null, JsonObject.class).get("inventory").getAsJsonObject();
+		
+		return client.fromJson(obj.toString(), InventoryItem.class);
+
+	}
+	
 	
 	public Inventory addInventoryItems(List<ProductQueryEntry> inventoryList) throws IOException
 	{
