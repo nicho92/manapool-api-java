@@ -3,6 +3,7 @@ package org.api.manapool.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.api.manapool.model.enums.EnumType;
 import org.api.manapool.services.ManaPoolAPIService;
 
 import com.google.gson.annotations.SerializedName;
@@ -15,32 +16,26 @@ public class InventoryItem implements Serializable{
 	@SerializedName(value = "price_cents") private Integer priceCents;
 	private Integer quantity;
 	@SerializedName(value = "effective_as_of") private String effectiveAsOf;
-	@SerializedName(value = "product_type") private String type;
+	@SerializedName(value = "product_type") private EnumType type;
 	@SerializedName(value = "product_id") private String productId;
 	private ProductItem product;
 	
-	
-	
-	public double getPriceValue()
-	{
+	public double getPriceValue()	{
 		return getPriceCents()/100.0;
 	}
-	
-	
 	
 	public Date getDateffectiveAsOf() {
 		return ManaPoolAPIService.parseDate(effectiveAsOf);
 	}
 	
-	
 	@Override
 	public String toString() {
 		return getId();
 	}
-	public String getType() {
+	public EnumType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(EnumType type) {
 		this.type = type;
 	}
 	public String getId() {

@@ -13,7 +13,7 @@ public class Testers {
 		
 		service.getSellerInventory().getItems().forEach(i->{
 			
-			System.out.println(i.getProduct().getSingle().getName() + " " + i.getProduct().getSingle().getSet() + " " + i.getProduct().getSingle().getLanguage() + " " + i.getPriceValue());
+			System.out.println(i.getProduct().getName() + " " + i.getProduct().getSet() + " " + " " + i.getProduct().getLanguage() +" " + i.getPriceValue());
 			
 		});
 		
