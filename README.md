@@ -1,10 +1,15 @@
 # manapool-api-java
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.nicho92/manapool-api-java.svg)](https://central.sonatype.com/artifact/com.github.nicho92/manapool-api-java)
+[![Java](https://img.shields.io/badge/Java-21%2B-blue.svg)](https://www.oracle.com/java/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
+
 Java client library for the [Mana Pool](https://manapool.com) API. The library wraps common buyer, seller, inventory, price, card, account, and order endpoints in Java model classes.
 
 ## Requirements
 
-- Java 13 or newer
+- Java 21 or newer
 - Maven 3.x
 - A Mana Pool account email and API token
 
@@ -16,7 +21,7 @@ Add the Maven dependency to your project:
 <dependency>
     <groupId>com.github.nicho92</groupId>
     <artifactId>manapool-api-java</artifactId>
-    <version>0.0.11</version>
+    <version>0.0.13</version>
 </dependency>
 ```
 
